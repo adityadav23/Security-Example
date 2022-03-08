@@ -1,5 +1,5 @@
 const path = require('path')
-const http = require('http')
+const https = require('https')
 const fs = require('fs')
 
 const express = require('express')
@@ -17,6 +17,9 @@ app.get('/secret',(req,res)=>{
     res.send('Your secret value is 422!')
 })
 
-http.createServer(app).listen(PORT,()=>{
-    console.log(`Server is listenong on port: ${PORT}`)
+https.createServer({
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+},app).listen(PORT,()=>{
+    console.log(`Server is listening on port: ${PORT}`)
 })
