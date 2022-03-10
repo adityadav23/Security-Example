@@ -10,12 +10,31 @@ const app = express()
 
 app.use(helmet())
 
+function isLogggedIn(req, res, next){
+    const isLoggedIn = true //TODO
+    if(!isLoggedIn){
+        res.status(401).json({
+            error:'You must log in!'
+        })
+    }
+
+    next()
+
+}
+
+app.get('/auth/google',(req,res)=>{})
+
+app.get('/auth/google/callback',(req,res)=>{})
+app.get('/auth/logout',(req,res)=>{})
+
+
+
 app.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'public','index.html'))
 
 })
 
-app.get('/secret',(req,res)=>{
+app.get('/secret',isLogggedIn,(req,res)=>{
 
     res.send('Your secret value is 422!')
 })
